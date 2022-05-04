@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
 import styles from './Login.style';
 
@@ -6,6 +6,9 @@ import Button from '../../../components/Button'
 import Input from '../../../components/Input'
 import mainStyles from '../../main_styles/main.styles';
 import { Formik } from 'formik';
+import auth from '@react-native-firebase/auth';
+import { showMessage, hideMessage } from "react-native-flash-message";
+import colors from '../../../styles/colors';
 
 const initialFormValues = {
     email: '',
@@ -13,18 +16,37 @@ const initialFormValues = {
 }
 
 function Login({ text, onPress, navigation }) {
+    const [loading, setLoading] = useState(false);
+
     function goSignUp() {
         navigation.navigate('SignUpPage');
     }
 
-    function handleFormSubmit(formValues) {
-        console.log(formValues);
+    async function handleFormSubmit(formValues) {
+        try {
+            setLoading(true);
+            await auth().signInWithEmailAndPassword(
+                formValues.email,
+                formValues.password
+            );
+            setLoading(false);
+        }
+        catch (error) {
+            showMessage({
+                message: error.code,
+                type: "info",
+                backgroundColor: colors.error
+            });
+            console.log(error);
+            setLoading(false);
+
+        }
+        
     }
 
 
     return (
         <View style={[styles.container]}>
-
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Text style={mainStyles.header1}>Hello Again!</Text>
@@ -32,7 +54,7 @@ function Login({ text, onPress, navigation }) {
             </View>
 
             <Formik initialValues={initialFormValues} onSubmit={handleFormSubmit}>
-                {({values, handleChange, handleSubmit})=>(
+                {({ values, handleChange, handleSubmit }) => (
                     <>
                         <View>
                             <Input
@@ -52,7 +74,7 @@ function Login({ text, onPress, navigation }) {
                         </View>
 
                         <View >
-                            <Button text={"Sign In"} onPress={handleSubmit} />
+                            <Button text={"Sign In"} onPress={handleSubmit} loading={loading}/>
                             <View style={{ flexDirection: "row", alignItems: "center", marginTop: Dimensions.get('window').height / 50, justifyContent: "center" }}>
                                 <Text style={{ alignSelf: 'flex-end' }}>Don't you have an account? </Text>
                                 <TouchableOpacity onPress={goSignUp}><Text style={mainStyles.blueSentence}>Sign Up!</Text></TouchableOpacity>

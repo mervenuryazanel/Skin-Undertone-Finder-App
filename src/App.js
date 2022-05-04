@@ -4,7 +4,7 @@ import Login from './pages/authorization/Login';
 import SignUp from './pages/authorization/SignUp';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import FlashMessage from 'react-native-flash-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +25,7 @@ export default()=>{
         <Stack.Screen name="AuthStack" component={AuthStack} />
         {/* <Stack.Screen name="ScanPage" component={Scan} /> */}
       </Stack.Navigator>
+      <FlashMessage position="top" />
       </NavigationContainer>
 
   );

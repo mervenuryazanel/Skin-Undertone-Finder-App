@@ -7,7 +7,7 @@ export default StyleSheet.create({
         justifyContent:"center"
     },
     input: {
-        width: Dimensions.get('window').width / 1.7,
+        width: Dimensions.get('window').width / 1.5,
         height: Dimensions.get('window').height / 12,
         backgroundColor: "rgba(255, 255, 255, 1)",
         borderRadius: 15,

@@ -1,47 +1,50 @@
-import {StyleSheet} from 'react-native'
-import { Dimensions } from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native'
+import colors from '../../styles/colors';
+
+
+const base_style = StyleSheet.create({
+    container: {
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    button: {
+        width: Dimensions.get('window').width / 1.5,
+        height: Dimensions.get('window').height / 12,
+        borderRadius: 15,
+        alignItems: "center",
+        justifyContent: "center",
+        margin: Dimensions.get('window').height / 20,
+        marginBottom:0
+
+    },
+    text: {
+        fontSize: 18
+
+    }
+});
 
 export default {
     primary: StyleSheet.create({
-        container: {
-            alignItems: "center",
-            justifyContent: "center"
-        },
+        ...base_style,
         button: {
-            width: Dimensions.get('window').width / 1.7,
-            height: Dimensions.get('window').height / 12,
-            backgroundColor: "rgba(54, 54, 54, 1)",
-            borderRadius: 15,
-            alignItems: "center",
-            justifyContent: "center",
-            margin: Dimensions.get('window').height / 20
-      
+            ...base_style.button,
+            backgroundColor: colors.darkgray,
         },
         text: {
-            color: "rgba(255, 255, 255, 1)",
-            fontSize: 18
-
+            ...base_style.text,
+            color: colors.white,
         }
     }),
-    secondary: StyleSheet.create({
-        container: {
-            alignItems: "center",
-            justifyContent: "center"
-        },
-        button: {
-            width: Dimensions.get('window').width / 1.7,
-            height: Dimensions.get('window').height / 12,
-            backgroundColor: "rgba(54, 54, 54, 1)",
-            borderRadius: 15,
-            alignItems: "center",
-            justifyContent: "center",
-            margin: Dimensions.get('window').height / 20
 
+    secondary: StyleSheet.create({
+       ...base_style,
+        button: {
+            ...base_style.button,
+            backgroundColor: colors.white
         },
         text: {
-            color: "rgba(255, 255, 255, 1)",
-            fontSize: 18
-
-        }
+            ...base_style.text,
+            color: colors.darkgray,
+           }
     })
 }

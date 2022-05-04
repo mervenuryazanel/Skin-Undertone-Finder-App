@@ -10,6 +10,8 @@ import auth from '@react-native-firebase/auth';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from '../../../styles/colors';
 
+import authErrorMessages from '../../../utils/authErrorMessages';
+
 const initialFormValues = {
     email: '',
     password: '',
@@ -26,14 +28,19 @@ function Login({ text, onPress, navigation }) {
         try {
             setLoading(true);
             await auth().signInWithEmailAndPassword(
-                formValues.email,
-                formValues.password
+                formValues?.email,
+                formValues?.password
             );
             setLoading(false);
+            showMessage({ //flash message for success
+                message: "Giriş başarılı",
+                type: "info",
+                backgroundColor: colors.success
+            });
         }
         catch (error) {
-            showMessage({
-                message: error.code,
+            showMessage({ //flash message for errors
+                message: authErrorMessages(error.code),
                 type: "info",
                 backgroundColor: colors.error
             });
@@ -66,7 +73,9 @@ function Login({ text, onPress, navigation }) {
                             <Input
                                 onChangeText={handleChange('password')}
                                 value={values.password}
-                                placeHolder={"enter password..."} />
+                                placeHolder={"enter password..."}
+                                isSecure={true}
+                            />
                             <TouchableOpacity>
                                 <Text style={[mainStyles.blueSentence, { marginRight: Dimensions.get('window').height / 35 }]}>I forgot my password.</Text>
                             </TouchableOpacity>

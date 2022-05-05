@@ -10,6 +10,8 @@ export default function (errorCode) {
             return "Kullanıcı bulunamadı.";
         case "auth/weak-password":
             return "Zayıf şifre! Şifre en az 6 karakterden oluşmalı.";
+        case "auth/wrong-password":
+            return "Yanlış şifre!";
         default:
             return errorCode;
     }

@@ -28,17 +28,25 @@ function SignUp({ text, onPress, navigation }) {
     async function handleFormSubmit(formValues) {
         console.log(formValues);
         try {
-            setLoading(true);
-            await auth().createUserWithEmailAndPassword(
-                formValues?.email, formValues?.password
-            );
-            setLoading(false);
-            showMessage({ //flash message for success
-                message: "Kayıt başarıyla oluşturuldu.",
-                type: "info",
-                backgroundColor: colors.success
-            });
-            navigation.navigate('LoginPage');
+            if (formValues.email != '' && formValues.password != '') {
+                setLoading(true);
+                await auth().createUserWithEmailAndPassword(
+                    formValues?.email, formValues?.password
+                );
+                setLoading(false);
+                showMessage({ //flash message for success
+                    message: "Kayıt başarıyla oluşturuldu.",
+                    type: "info",
+                    backgroundColor: colors.success
+                });
+                navigation.navigate('LoginPage');
+            } else {
+                showMessage({ //flash message for success
+                    message: "Gerekli alanları lütfen doldurunuz.",
+                    type: "error",
+                    backgroundColor: colors.error
+                });
+            }
         } catch (error) {
             showMessage({ //flash message for errors
                 message: authErrorMessages(error.code),

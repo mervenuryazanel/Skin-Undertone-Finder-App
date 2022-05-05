@@ -26,17 +26,26 @@ function Login({ text, onPress, navigation }) {
 
     async function handleFormSubmit(formValues) {
         try {
-            setLoading(true);
-            await auth().signInWithEmailAndPassword(
-                formValues?.email,
-                formValues?.password
-            );
-            setLoading(false);
-            showMessage({ //flash message for success
-                message: "Giriş başarılı",
-                type: "info",
-                backgroundColor: colors.success
-            });
+            if (formValues.email != '' && formValues.password != '') {
+                setLoading(true);
+                await auth().signInWithEmailAndPassword(
+                    formValues?.email,
+                    formValues?.password
+                );
+                setLoading(false);
+                showMessage({ //flash message for success
+                    message: "Giriş başarılı",
+                    type: "info",
+                    backgroundColor: colors.success
+                });
+            }
+            else {
+                showMessage({ //flash message for success
+                    message: "Gerekli alanları lütfen doldurunuz.",
+                    type: "error",
+                    backgroundColor: colors.error
+                });
+            }
         }
         catch (error) {
             showMessage({ //flash message for errors

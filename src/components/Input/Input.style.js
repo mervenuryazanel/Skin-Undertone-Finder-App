@@ -4,7 +4,11 @@ import { Dimensions } from 'react-native';
 export default StyleSheet.create({
     container: {
         alignItems: "center",
-        justifyContent:"center"
+        justifyContent: "center",
+        flexDirection: "row",
+      
+        
+
     },
     input: {
         width: Dimensions.get('window').width / 1.5,
@@ -22,4 +26,6 @@ export default StyleSheet.create({
 
     }
 })
+
+
 

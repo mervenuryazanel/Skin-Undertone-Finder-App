@@ -4,7 +4,7 @@ import styles from './Login.style';
 
 import Button from '../../../components/Button'
 import Input from '../../../components/Input'
-import mainStyles from '../../main_styles/main.styles';
+import mainStyles from '../../../styles/main_styles/main.styles';
 import { Formik } from 'formik';
 import auth from '@react-native-firebase/auth';
 import { showMessage, hideMessage } from "react-native-flash-message";
@@ -22,6 +22,9 @@ function Login({ text, onPress, navigation }) {
 
     function goSignUp() {
         navigation.navigate('SignUpPage');
+    }
+    function goPasswordReset() {
+        navigation.navigate('PasswordResetPage');
     }
 
     async function handleFormSubmit(formValues) {
@@ -85,7 +88,7 @@ function Login({ text, onPress, navigation }) {
                                 placeHolder={"enter password..."}
                                 isSecure={true}
                             />
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={goPasswordReset}>
                                 <Text style={[mainStyles.blueSentence, { marginRight: Dimensions.get('window').height / 35 }]}>I forgot my password.</Text>
                             </TouchableOpacity>
 

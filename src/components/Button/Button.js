@@ -2,10 +2,10 @@ import React from 'react';
 import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
 import styles from './Button.style.js';
 
-function Button({ text, onPress, theme = "primary", loading = false }) {
+function Button({ text, onPress, theme = "primary", loading = false, buttonStyle }) {
   return (
     <View style={styles.primary.container}>
-      <TouchableOpacity style={styles[theme].button} onPress={onPress}>
+      <TouchableOpacity style={[styles[theme].button, buttonStyle]} onPress={onPress}>
         {loading ?
           <ActivityIndicator color="#FAFF2D" size={'large'} /> :
 

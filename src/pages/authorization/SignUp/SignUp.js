@@ -4,7 +4,7 @@ import styles from './SignUp.style';
 
 import Button from '../../../components/Button'
 import Input from '../../../components/Input'
-import mainStyles from '../../main_styles/main.styles';
+import mainStyles from '../../../styles/main_styles/main.styles';
 import { Formik } from 'formik';
 import auth from '@react-native-firebase/auth';
 import authErrorMessages from '../../../utils/authErrorMessages';

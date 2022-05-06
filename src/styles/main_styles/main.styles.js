@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
+import colors from '../colors'
 
 export default StyleSheet.create({
 
@@ -8,22 +9,28 @@ export default StyleSheet.create({
         justifyContent: "center"
     },
     header1: {
-        color: "#000000",
+        color: colors.darkgray,
         fontSize: 30,
-        marginTop: Dimensions.get('window').height / 10
+        marginTop: Dimensions.get('window').height / 10,
+        textAlign: "center",
     },
 
     greeting: {
         color: "#9D9B9B",
         fontSize: 17,
         marginTop: Dimensions.get('window').height / 30,
-        textAlign:"center"
+        textAlign: "center",
     },
 
     blueSentence: {
         color: "#5F9FFF",
         fontSize: 14,
         alignSelf: 'flex-end'
+    },
+    textWithShadow: {
+        textShadowColor: 'rgba(0, 0, 0, 0.4)',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 10,
     }
 
 })

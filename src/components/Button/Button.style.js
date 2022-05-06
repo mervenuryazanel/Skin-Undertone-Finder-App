@@ -40,7 +40,7 @@ export default {
        ...base_style,
         button: {
             ...base_style.button,
-            backgroundColor: colors.white
+            backgroundColor: colors.gray
         },
         text: {
             ...base_style.text,

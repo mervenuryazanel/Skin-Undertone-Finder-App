@@ -41,6 +41,8 @@ function Login({ text, onPress, navigation }) {
                     type: "info",
                     backgroundColor: colors.success
                 });
+                navigation.navigate('MainPages');
+
             }
             else {
                 showMessage({ //flash message for success

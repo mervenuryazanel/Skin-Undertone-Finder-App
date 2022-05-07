@@ -9,8 +9,8 @@ import Verified from '../../../components/SVGcomponents/Verified';
 
 function SuccessfulSignUp({ navigation }) {
 
-    function goSignIn() {
-        navigation.navigate('LoginPage');
+    function goScan() {
+        navigation.navigate('ScanPage');
     }
 
     return (
@@ -24,7 +24,7 @@ function SuccessfulSignUp({ navigation }) {
                     Start to find your true colors!
                 </Text>
                 <Button
-                    text={"Start"} onPress={null}
+                    text={"Start"} onPress={goScan}
                     buttonStyle={{
                         marginTop: Dimensions.get('window').height / 8,
                     }} />

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, Image } from 'react-native';
 import styles from './SignUp.style';
 
 import Button from '../../../components/Button'
@@ -25,6 +25,9 @@ function SignUp({ text, onPress, navigation }) {
         navigation.navigate('LoginPage');
     }
 
+    function goSuccesfulSignUpPage() {
+        navigation.navigate('SuccessfulSignUpPage');
+    }
     async function handleFormSubmit(formValues) {
         console.log(formValues);
         try {
@@ -39,7 +42,8 @@ function SignUp({ text, onPress, navigation }) {
                     type: "info",
                     backgroundColor: colors.success
                 });
-                navigation.navigate('LoginPage');
+                // navigation.navigate('LoginPage');
+                navigation.navigate('SuccessfulSignUpPage');
             } else {
                 showMessage({ //flash message for success
                     message: "Gerekli alanları lütfen doldurunuz.",
@@ -60,8 +64,10 @@ function SignUp({ text, onPress, navigation }) {
 
     return (
         <View style={[styles.container]}>
-
-
+            <Image
+                style={mainStyles.circles}
+                source={require('../../../../assets/images/circles.png')}
+            />
             <View style={{ justifyContent: "center", alignItems: "center", width: Dimensions.get('window').width / 1.5 }}>
                 <Text style={[mainStyles.header1, { marginTop: Dimensions.get('window').height / 500 }]}>Register Now</Text>
                 <Text style={mainStyles.greeting}>Create an account and save matched items with your skin tone!</Text>

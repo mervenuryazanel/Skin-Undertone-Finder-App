@@ -31,6 +31,18 @@ export default StyleSheet.create({
         textShadowColor: 'rgba(0, 0, 0, 0.4)',
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 10,
-    }
+    },
+    circles: {
+        // position: "absolute",
+        // width: Dimensions.get('window').width / 1.25,
+        // height: Dimensions.get('window').height / 4,
+        width: '90%',
+        height: undefined,
+        aspectRatio: 1,
+        position: "absolute",
+        left:-120,
+        top:-150
+        
+    },
 
 })

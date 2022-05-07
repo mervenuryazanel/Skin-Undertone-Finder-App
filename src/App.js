@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, Text, StyleSheet, Dimensions } from 'react-native';
 import Login from './pages/authorization/Login';
 import SignUp from './pages/authorization/SignUp';
+import SuccessfulSignUp from './pages/authorization/SuccessfulSignUp';
 import PasswordReset from './pages/authorization/PasswordReset';
 import Splash1 from './pages/splashes/Splash1/Splash1';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,6 +18,7 @@ export default () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash1Page" component={Splash1} />
         <Stack.Screen name="SignUpPage" component={SignUp} />
+        <Stack.Screen name="SuccessfulSignUpPage" component={SuccessfulSignUp} />
         <Stack.Screen name="LoginPage" component={Login} />
         <Stack.Screen name="PasswordResetPage" component={PasswordReset} />
 

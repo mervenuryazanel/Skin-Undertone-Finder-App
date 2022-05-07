@@ -5,16 +5,17 @@ import colors from '../../styles/colors';
 const base_style = StyleSheet.create({
     container: {
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
     button: {
         width: Dimensions.get('window').width / 1.5,
-        height: Dimensions.get('window').height / 12,
-        borderRadius: 15,
+        height: Dimensions.get('window').height / 13,
+        borderRadius: 50,
         alignItems: "center",
         justifyContent: "center",
         margin: Dimensions.get('window').height / 20,
-        marginBottom:0
+        marginBottom: 0,
+
 
     },
     text: {

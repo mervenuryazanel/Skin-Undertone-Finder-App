@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, Image } from 'react-native';
 import styles from './Login.style';
 
 import Button from '../../../components/Button'
@@ -66,6 +66,10 @@ function Login({ text, onPress, navigation }) {
 
     return (
         <View style={[styles.container]}>
+            <Image
+                style={mainStyles.circles}
+                source={require('../../../../assets/images/circles.png')}
+            />
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Text style={mainStyles.header1}>Hello Again!</Text>

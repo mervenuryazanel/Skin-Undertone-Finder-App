@@ -7,12 +7,10 @@ export default StyleSheet.create({
         justifyContent: "center",
         flexDirection: "row",
       
-        
-
     },
     input: {
         width: Dimensions.get('window').width / 1.5,
-        height: Dimensions.get('window').height / 12,
+        height: Dimensions.get('window').height / 18,
         backgroundColor: "rgba(255, 255, 255, 1)",
         borderRadius: 15,
         alignItems: "center",

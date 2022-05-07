@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, Image} from 'react-native';
 import styles from './PasswordReset.style';
 import ColorPalette1 from '../../../components/SVGcomponents/ColorPalette1';
 import mainStyles from '../../../styles/main_styles/main.styles';
@@ -26,27 +26,32 @@ function PasswordReset({ navigation }) {
             if (formValues.email != '') {
                 setLoading(true);
                 await auth().sendPasswordResetEmail(
-                    formValues?.email, 
+                    formValues?.email,
                 );
                 setLoading(false);
                 showMessage({ //flash message for success
-                    message: "Şifre sıfırlama maili başarıyla gönderildi.",
+                    message: "Şifre sıfırlama maili başarıyla gönderildi. Mesaj kutunuzu lütfen kontrol ediniz",
                     type: "success",
-                    backgroundColor: colors.success
+                    backgroundColor: colors.success,
+                    // animationDuration: 1000,
+                    
                 });
                 // navigation.navigate('LoginPage');
             } else {
                 showMessage({ //flash message for success
                     message: "Gerekli alanları lütfen doldurunuz.",
                     type: "error",
-                    backgroundColor: colors.error
+                    backgroundColor: colors.error,
+                    // animationDuration:1000
                 });
             }
         } catch (error) {
             showMessage({ //flash message for errors
                 message: authErrorMessages(error.code),
                 type: "info",
-                backgroundColor: colors.error
+                backgroundColor: colors.error,
+                // animationDuration: 1000
+
             });
             console.log(error);
             setLoading(false);
@@ -59,6 +64,11 @@ function PasswordReset({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <Image
+                style={mainStyles.circles}
+                source={require('../../../../assets/images/circles.png')}
+            />
+
             <Text style={mainStyles.header1}>
                 Password Reset
             </Text>

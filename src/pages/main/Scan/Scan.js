@@ -6,14 +6,43 @@ import RNFS from 'react-native-fs';
 import Button from '../../../components/Button';
 import colors from '../../../styles/colors';
 import styles from './Scan.style';
+import ImageJson from "./img/ImageJson";
 
-export default function Scan({navigation}) {
+
+
+export default function Scan({ navigation }) {
+    
 
     const camera = useRef(null);
 
     const [{ cameraRef }, { takePicture }] = useCamera(null);
     const [imageUri, setImageUri] = useState("");
     const [front, setFront] = useState(false);
+
+    let base64String = "";
+
+
+    function toDataURL(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+        
+    }
+
+    
+
+    // toDataURL('https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0', function (dataUrl) {
+    //     console.log('RESULT:', dataUrl)
+    // })
+
 
     const captureHandle = async () => {
         try {
@@ -24,6 +53,15 @@ export default function Scan({navigation}) {
 
             console.log("DATA_URI: ", data.uri);
             setImageUri(data.uri);
+            toDataURL(data.uri, function (dataUrl) {
+                // console.log('RESULT:', dataUrl);
+                var newValue = dataUrl; //------------------------------------------------------- as base64
+                var denemeJson = { imageString: dataUrl }; 
+                // console.log(denemeJson);
+                console.log("---------length--------:", dataUrl.length);
+               
+            })
+
             const filePath = data.uri; //source path
             const newFilePath = RNFS.ExternalDirectoryPath + '/mytest.jpg'; //target path
             RNFS.moveFile(filePath, newFilePath)
@@ -44,6 +82,26 @@ export default function Scan({navigation}) {
             console.log(error);
         }
     }
+
+    const uploadImage = () => {
+        
+        var data = new FormData();
+
+        data.append('file', { uri: data.uri, name: 'mytest.jpg', type: 'image/jpg' });
+        // Create the config object for the POST
+        const config = {
+            method: 'POST',
+            body: data
+        };
+        fetch('URL', config).then(responseData => {
+            // Log the response form the server // Here we get what we sent to Postman 
+            back
+            console.log(responseData);
+        })
+            .catch(err => { console.log(err); });
+    }
+
+
     return (
         <View style={styles.body}>
             {
@@ -64,7 +122,15 @@ export default function Scan({navigation}) {
                                 Take Again
 
                             </Text>
-                            </TouchableOpacity>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{ width: "25%", height: "5%", position: "absolute", left: "38%", top: "91%", backgroundColor: "#faf6c9", borderRadius: 15 }}
+                            onPress={uploadImage}
+                        >
+                            <Text style={{color:colors.darkgray, fontSize:25, textAlign:"center"}}>
+                            Upload 
+                            </Text>
+                        </TouchableOpacity>
                         
                     </View> 
                     :
@@ -95,9 +161,7 @@ export default function Scan({navigation}) {
                                     onPress={() => captureHandle()}
                                     style={styles.capture}
                                 >
-                                    <Text>
-                                        capture
-                                    </Text>
+                                    
                                 </TouchableOpacity>
                             </View>
 

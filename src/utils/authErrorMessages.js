@@ -12,6 +12,8 @@ export default function (errorCode) {
             return "Zayıf şifre! Şifre en az 6 karakterden oluşmalı.";
         case "auth/wrong-password":
             return "Yanlış şifre!";
+        case "auth/network-request-failed":
+            return "Lütfen internet bağlantınızı kontrol ediniz!";
         default:
             return errorCode;
     }

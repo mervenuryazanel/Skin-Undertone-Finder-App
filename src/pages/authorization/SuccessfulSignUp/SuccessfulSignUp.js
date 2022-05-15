@@ -10,7 +10,7 @@ import Verified from '../../../components/SVGcomponents/Verified';
 function SuccessfulSignUp({ navigation }) {
 
     function goScan() {
-        navigation.navigate('ScanPage');
+        navigation.navigate('MainPages');
     }
 
     return (

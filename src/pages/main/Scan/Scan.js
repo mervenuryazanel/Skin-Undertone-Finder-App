@@ -1,79 +1,75 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, ImageBackground } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useCamera } from 'react-native-camera-hooks';
+import RNFS from 'react-native-fs';
 
-export const PendingView = () => (
-    <View style={styles.cameraPendingView}>
-        <Text>Kamera Bekleniyor...</Text>
-    </View>
-);
-const Scan = () => {
-    return (
-        <View style={styles.container}>
+export default function Scan({navigation}) {
 
-            {/* <RNCamera
+    const [{ cameraRef }, { takePicture }] = useCamera(null);
+    const [imageUri, setImageUri] = useState("");
 
-                captureAudio={false}
-                style={{ flex: 1 }}
-                type={RNCamera.Constants.Type.back}
-                androidCameraPermissionOptions={{
-                    title: 'Permission to use camera',
-                    message: 'We need your permission to use your camera',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }} />
-                <TouchableOpacity
-                    onPress={() => (console.log("sasdas"))}
-                    style={styles.capture}>
-                    <Text style={styles.takePhotoButton}> Fotoğraf Çek </Text>
-                </TouchableOpacity> */}
-            <RNCamera
-                style={styles.preview}
-                type={RNCamera.Constants.Type.back}
-                flashMode={RNCamera.Constants.FlashMode.auto}
-                androidCameraPermissionOptions={{
-                    title: 'Permission to use camera',
-                    message: 'We need your permission to use your camera',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }}
-                >
-                {({ camera, status }) => {
-                    if (status !== 'READY') {
-                        return <PendingView />;
+    const captureHandle = async () => {
+        try {
+            const data = await takePicture();
+            console.log("DATA_URI: ",data.uri);
+            const filePath = data.uri; //source path
+            const newFilePath = RNFS.ExternalDirectoryPath + '/mytest.jpg'; //target path
+            RNFS.moveFile(filePath, newFilePath)
+                .then(
+                    () => {
+                        console.log('Image moved from ' + filePath + ' to ' + newFilePath);
+                        // navigation.navigate('TakenPhotoPage', {
+                        //     url: data.uri,
+                        // });
+                        
                     }
-                    return (
-                        <View style={{flexDirection:'column', flex:1,width:"100%", justifyContent:"space-between"}}>
-                            {/* <Icon
-                                name="times"
-                                style={styles.icon}
-                                onPress={() => prop.route.closeGoBack()}
-                            /> */}
-                            
-                            <Text style={{color:'white', textAlign:'right'}}> Çek </Text>
+                ).catch(
+                    error => {
+                        console.log(error);
+                    }
+                )
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    return (
+        <View style={styles.body}>
+            {
+                imageUri ? <ImageBackground
+                    source={{ uri: imageUri }}
+                    resizeMode="cover"
+                    style={styles.image}
+                /> :
+            
+            
+                    <RNCamera
+                        ref={cameraRef}
+                        type={RNCamera.Constants.Type.back}
+                        style={styles.preview}
 
-                            <View style={styles.cameraContainer}>
-                                <TouchableOpacity
-                                    onPress={() => console.log('asd')}
-                                    style={styles.capture}>
-                                    <Text style={styles.takePhotoButton}> Fotoğraf Çek </Text>
-                                </TouchableOpacity>
-                            </View>
-                        </ View>
-                    );
-                }}
-            </RNCamera>
+                    >
+                        <View style={styles.iconContainer}>
+                            <TouchableOpacity
+                                onPress={() => captureHandle()}
+                                style={styles.capture}
+                            >
+                                <Text>
+                                    capture
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </RNCamera>
+            }
         </View>
     );
 }
 
-export default Scan;
-
 const styles = StyleSheet.create({
-    container: {
+    body: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: 'black',
+
     },
     preview: {
         flex: 1,
@@ -82,23 +78,26 @@ const styles = StyleSheet.create({
     },
     capture: {
         backgroundColor: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        paddingHorizontal: 20,
+        borderRadius: 50,
+        // padding: 15,
+        // paddingHorizontal: 20,
         alignSelf: 'center',
-        margin: 20,
+        // margin: 20,
+        width: "70%",
+        height: "70%"
     },
-    cameraPendingView: {
-        flex: 1,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '100%',
-    },
-    cameraContainer: {
+    iconContainer: {
         flexDirection: 'row',
+        alignItems: "center",
         justifyContent: 'center',
+        width: 100,
+        height: 100,
+        // backgroundColor: "#aaa4a4",
+        alignSelf: "center",
+        // marginBottom: 20
     },
-    takePhotoButton: { fontSize: 14 },
-});
+    image: {
+        flex: 1,
+        justifyContent: "center"
+    },
+})

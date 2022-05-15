@@ -1,18 +1,29 @@
-import React, {useState} from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, ImageBackground } from 'react-native';
+import React, {useState, useRef} from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, Image, Dimensions } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { useCamera } from 'react-native-camera-hooks';
 import RNFS from 'react-native-fs';
+import Button from '../../../components/Button';
+import colors from '../../../styles/colors';
+import styles from './Scan.style';
 
 export default function Scan({navigation}) {
 
+    const camera = useRef(null);
+
     const [{ cameraRef }, { takePicture }] = useCamera(null);
     const [imageUri, setImageUri] = useState("");
+    const [front, setFront] = useState(false);
 
     const captureHandle = async () => {
         try {
             const data = await takePicture();
-            console.log("DATA_URI: ",data.uri);
+            // const { uri } = await cameraRef.current.takePictureAsync({ quality: 0.5, base64: true });
+            // setImageUri(uri);
+            // console.log("DATA_URI_2222", uri);
+
+            console.log("DATA_URI: ", data.uri);
+            setImageUri(data.uri);
             const filePath = data.uri; //source path
             const newFilePath = RNFS.ExternalDirectoryPath + '/mytest.jpg'; //target path
             RNFS.moveFile(filePath, newFilePath)
@@ -36,29 +47,63 @@ export default function Scan({navigation}) {
     return (
         <View style={styles.body}>
             {
-                imageUri ? <ImageBackground
-                    source={{ uri: imageUri }}
-                    resizeMode="cover"
-                    style={styles.image}
-                /> :
+                imageUri ?
+                    <View style={{flex: 1}}>
+                        <Image
+                            source={{ uri: imageUri } }
+                            style={styles.preview} 
+                        />
+                        
+                        <TouchableOpacity
+                            style={styles.cancel}
+
+                            onPress={() => setImageUri(null)}
+                        >
+                            <Text style={{color:colors.white , fontSize:20, }}
+                            >
+                                Take Again
+
+                            </Text>
+                            </TouchableOpacity>
+                        
+                    </View> 
+                    :
             
-            
+
+                   
                     <RNCamera
                         ref={cameraRef}
-                        type={RNCamera.Constants.Type.back}
+                        type={!front ? RNCamera.Constants.Type.back : RNCamera.Constants.Type.front}
                         style={styles.preview}
 
                     >
-                        <View style={styles.iconContainer}>
-                            <TouchableOpacity
-                                onPress={() => captureHandle()}
-                                style={styles.capture}
-                            >
-                                <Text>
-                                    capture
-                                </Text>
-                            </TouchableOpacity>
+                        <View style={{ flexDirection: "row" }}>
+                            
+                            <View style={styles.iconContainer}>
+                                <TouchableOpacity
+                                    onPress={() => setFront(!front)}
+                                    
+                                >
+                                    <Text style={{color:"white"}}>
+                                        flip
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.iconContainer}>
+                                <TouchableOpacity
+                                    onPress={() => captureHandle()}
+                                    style={styles.capture}
+                                >
+                                    <Text>
+                                        capture
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+
+                           
                         </View>
+                        
 
                     </RNCamera>
             }
@@ -66,38 +111,3 @@ export default function Scan({navigation}) {
     );
 }
 
-const styles = StyleSheet.create({
-    body: {
-        flex: 1,
-
-    },
-    preview: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    capture: {
-        backgroundColor: '#fff',
-        borderRadius: 50,
-        // padding: 15,
-        // paddingHorizontal: 20,
-        alignSelf: 'center',
-        // margin: 20,
-        width: "70%",
-        height: "70%"
-    },
-    iconContainer: {
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: 'center',
-        width: 100,
-        height: 100,
-        // backgroundColor: "#aaa4a4",
-        alignSelf: "center",
-        // marginBottom: 20
-    },
-    image: {
-        flex: 1,
-        justifyContent: "center"
-    },
-})

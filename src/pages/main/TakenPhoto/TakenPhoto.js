@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 
 export default function Scan({ route, navigation }) {
     const { url } = route.params;
@@ -8,9 +8,9 @@ export default function Scan({ route, navigation }) {
             <TouchableOpacity onPress={() => {
                 console.log(url);
             }}>
-                <Text>
-                    asdasd
-                </Text>
+                <Image
+                    source={{ uri: url }}
+                />
             </TouchableOpacity>
         </View> 
     )

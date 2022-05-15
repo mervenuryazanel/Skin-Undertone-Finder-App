@@ -4,6 +4,7 @@ import styles from './Splash1.style';
 import ColorPalette1 from '../../../components/SVGcomponents/ColorPalette1';
 import mainStyles from '../../../styles/main_styles/main.styles';
 import Button from '../../../components/Button';
+import colors from '../../../styles/colors';
 
 function Splash1({ navigation }) {
     function goSignUp() {
@@ -16,7 +17,7 @@ function Splash1({ navigation }) {
         <View style={styles.container}>
             <View style={styles.innerContainer}>
                 <Text style={[mainStyles.header1, { marginTop: 0 }]}>
-                    {' '}Find{'\n'} your{'\n'} <Text style={[mainStyles.textWithShadow, { color: "#FAFF2D" }]}>skin{'\n'}</Text> tone
+                    {' '}Find{'\n'} your{'\n'} <Text style={[mainStyles.textWithShadow, { color: colors.yellow }]}>skin{'\n'}</Text> tone
                 </Text>
                 <ColorPalette1 style={styles.image} />
             </View>

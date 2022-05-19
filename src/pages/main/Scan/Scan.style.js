@@ -27,7 +27,17 @@ import colors from '../../../styles/colors';
         backgroundColor: colors.darkgray,
         alignSelf: "center",
         // marginBottom: 20
-    },
+     },
+     iconContainer2: {
+         flexDirection: 'row',
+         alignItems: "center",
+         justifyContent: 'center',
+         width: Dimensions.get('window').width / 3,
+         height: 100,
+         backgroundColor: colors.darkgray,
+         alignSelf: "center",
+         // marginBottom: 20
+     },
     image: {
         flex: 1,
         justifyContent: "center"

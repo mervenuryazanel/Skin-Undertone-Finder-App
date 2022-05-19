@@ -69,6 +69,47 @@ export default function Scan({ navigation }) {
         );
     }
 
+
+    function RenderBottomTaken({ style }) {
+        return (
+            <View style={[style, { flexDirection: "row" }]}>
+
+
+                <View style={[styles.iconContainer2, { borderTopLeftRadius: 15, }]}>
+                    <TouchableOpacity
+                        onPress={null}
+
+                    >
+                        <Icon name="photo-library" size={38} color="#ffffff" />
+                    </TouchableOpacity>
+                </View>
+
+              
+                <View style={styles.iconContainer2}>
+                    <TouchableOpacity
+                        onPress={uploadImage}
+
+                    >
+                        {/* <Icon name="flip-camera-ios" size={38} color="#ffffff" /> */}
+                        <Text style={{color:"white", fontSize:20}} >
+                            Upload
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{ ...styles.iconContainer2, borderTopRightRadius: 15, }}>
+                    <TouchableOpacity
+                        onPress={null}
+
+                    >
+                        <Icon name="account-box" size={38} color="#ffffff" />
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+
+        );
+    }
     const camera = useRef(null);
 
     const [{ cameraRef }, { takePicture }] = useCamera(null);
@@ -99,7 +140,7 @@ export default function Scan({ navigation }) {
     //     console.log('RESULT:', dataUrl)
     // })
 
-
+    var denemeJson;
     const captureHandle = async () => {
         try {
             const data = await takePicture();
@@ -112,7 +153,7 @@ export default function Scan({ navigation }) {
             toDataURL(data.uri, function (dataUrl) {
                 // console.log('RESULT:', dataUrl);
                 var newValue = dataUrl; //------------------------------------------------------- as base64
-                var denemeJson = { imageString: dataUrl }; 
+                denemeJson = { imageString: dataUrl }; 
                 // console.log(denemeJson);
                 console.log("---------length--------:", dataUrl.length);
                
@@ -149,12 +190,12 @@ export default function Scan({ navigation }) {
             method: 'POST',
             body: data
         };
-        fetch('URL', config).then(responseData => {
+        fetch('http://127.0.0.1:5000', config).then(responseData => {
             // Log the response form the server // Here we get what we sent to Postman 
             back
             console.log(responseData);
         })
-            .catch(err => { console.log(err); });
+        .catch(err => { console.log(err); });
     }
 
 
@@ -173,11 +214,11 @@ export default function Scan({ navigation }) {
                         </View>
                         
                         <TouchableOpacity
-                            style={styles.cancel}
+                            style={styles.cancel }
 
                             onPress={() => setImageUri(null)}
                         >
-                            <Text style={{color:colors.white , fontSize:20, }}
+                            <Text style={{color:colors.darkgray , fontSize:20, }}
                             >
                                 Take Again
 
@@ -185,7 +226,7 @@ export default function Scan({ navigation }) {
                         </TouchableOpacity>
                         <View style={{}}>
 
-                            <RenderBottom />
+                            <RenderBottomTaken />
                         </View>
                     </View> 
                     :

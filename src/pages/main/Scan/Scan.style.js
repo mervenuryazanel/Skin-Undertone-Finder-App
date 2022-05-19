@@ -13,22 +13,18 @@ import colors from '../../../styles/colors';
         alignItems: 'center',
     },
     capture: {
-        backgroundColor: '#fff',
-        borderRadius: 50,
-        // padding: 15,
-        // paddingHorizontal: 20,
-        alignSelf: 'center',
-        // margin: 20,
-        width: "70%",
-        height: "70%"
+        alignItems: "center",
+        justifyContent:"center",
+        // width: "70%",
+        // height: "70%"
     },
     iconContainer: {
         flexDirection: 'row',
         alignItems: "center",
         justifyContent: 'center',
-        width: 100,
+        width: Dimensions.get('window').width/5,
         height: 100,
-        backgroundColor: "#aaa4a4",
+        backgroundColor: colors.darkgray,
         alignSelf: "center",
         // marginBottom: 20
     },
@@ -37,12 +33,23 @@ import colors from '../../../styles/colors';
         justifyContent: "center"
     },
     preview: {
-        flex: 1,
-        justifyContent: 'flex-end',
+        // flex: 1,
         alignItems: 'center',
-        height: Dimensions.get('window').height,
-        width: Dimensions.get('window').width
-    },
+        height: Dimensions.get('window').height/2.2,
+        width: Dimensions.get('window').width / 1.6,
+        borderWidth: 1,
+        borderColor: colors.darkgray,
+        borderRadius: 20,
+     },
+     previewCamera: {
+         // flex: 1,
+         alignItems: 'center',
+         height: Dimensions.get('window').height,
+         width: Dimensions.get('window').width,
+         borderWidth: 1,
+         borderColor: colors.darkgray,
+         borderRadius: 20,
+     },
     cancel: {
         position: 'absolute',
         right: 20,

@@ -6,12 +6,68 @@ import RNFS from 'react-native-fs';
 import Button from '../../../components/Button';
 import colors from '../../../styles/colors';
 import styles from './Scan.style';
-import ImageJson from "./img/ImageJson";
+// import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-
+const window = Dimensions.get("window").height;
 
 export default function Scan({ navigation }) {
     
+    function RenderBottom({style}) {
+        return (
+            <View style={[style,{ flexDirection: "row" }]}>
+
+
+                <View style={[styles.iconContainer, { borderTopLeftRadius: 15, }]}>
+                    <TouchableOpacity
+                        onPress={null}
+
+                    >
+                        <Icon name="photo-library" size={38} color="#ffffff" />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        onPress={null}
+
+                    >
+                        <Icon name="flash-auto" size={38} color="#ffffff" />
+                    </TouchableOpacity>
+                </View>
+
+
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        onPress={() => captureHandle()}
+                        style={styles.capture}
+                    >
+                        <Icon name="camera" size={38} color="#ffffff" />
+
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        onPress={() => setFront(!front)}
+
+                    >
+                        <Icon name="flip-camera-ios" size={38} color="#ffffff" />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{ ...styles.iconContainer, borderTopRightRadius: 15, }}>
+                    <TouchableOpacity
+                        onPress={null}
+
+                    >
+                        <Icon name="account-box" size={38} color="#ffffff" />
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+
+        );
+    }
 
     const camera = useRef(null);
 
@@ -106,11 +162,15 @@ export default function Scan({ navigation }) {
         <View style={styles.body}>
             {
                 imageUri ?
-                    <View style={{flex: 1}}>
+                    <View style={{
+                        flex: 1, backgroundColor: "#ffffffcff", justifyContent: 'space-between'
+                    }}>
+                        <View style={{alignItems:'center',marginTop: window/4}}>
                         <Image
                             source={{ uri: imageUri } }
                             style={styles.preview} 
                         />
+                        </View>
                         
                         <TouchableOpacity
                             style={styles.cancel}
@@ -123,53 +183,23 @@ export default function Scan({ navigation }) {
 
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style={{ width: "25%", height: "5%", position: "absolute", left: "38%", top: "91%", backgroundColor: "#faf6c9", borderRadius: 15 }}
-                            onPress={uploadImage}
-                        >
-                            <Text style={{color:colors.darkgray, fontSize:25, textAlign:"center"}}>
-                            Upload 
-                            </Text>
-                        </TouchableOpacity>
-                        
+                        <View style={{}}>
+
+                            <RenderBottom />
+                        </View>
                     </View> 
                     :
             
-
-                   
+                    
                     <RNCamera
                         ref={cameraRef}
                         type={!front ? RNCamera.Constants.Type.back : RNCamera.Constants.Type.front}
-                        style={styles.preview}
+                        style={styles.previewCamera}
 
                     >
-                        <View style={{ flexDirection: "row" }}>
-                            
-                            <View style={styles.iconContainer}>
-                                <TouchableOpacity
-                                    onPress={() => setFront(!front)}
-                                    
-                                >
-                                    <Text style={{color:"white"}}>
-                                        flip
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            <View style={styles.iconContainer}>
-                                <TouchableOpacity
-                                    onPress={() => captureHandle()}
-                                    style={styles.capture}
-                                >
-                                    
-                                </TouchableOpacity>
-                            </View>
-
-                           
-                        </View>
-                        
-
-                    </RNCamera>
+                       
+                    <RenderBottom style={{position:"absolute", bottom:15}} />
+                        </RNCamera>
             }
         </View>
     );

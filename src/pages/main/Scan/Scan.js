@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Image, Dimensions } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { useCamera } from 'react-native-camera-hooks';
@@ -9,9 +9,98 @@ import styles from './Scan.style';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { LogBox } from "react-native";
+
+
+
 const window = Dimensions.get("window").height;
 
 export default function Scan({ navigation }) {
+    const [data, setData] = useState([]);
+  // const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+
+    
+    
+    const uploadImage = () => {
+
+        fetch('http://172.20.10.2:3000/predict', {
+            method: 'POST',
+            body: JSON.stringify({ "asd": "asdasd" })
+        })
+            .then(resp => resp.json()
+            )
+            .then(
+                x => {
+                    setData(x);
+                    console.log("DATAAAAAaaaaaaaaaaaaaaaaaaaaaaa: ", x);
+                }
+            )
+            .catch(error => { console("errooooooooooooor", error); });
+
+    }
+
+
+  // const insertData = () => {
+  //   fetch('http://172.20.10.2:3000/add', {
+  //     method: 'POST',
+  //     header: {
+  //       'Contetnt-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({ body: body })
+
+  //   })
+  //     .then(resp => resp.json)
+  //     .then(data => console.log("------------DATA---------", data))
+  //     .catch(error => console.log(error));
+
+
+  // }
+
+  // img={"asd":"asd"}
+  // useEffect(() => {
+  //   // fetch('http://172.20.10.2:3000/get', {
+  //   //   method: 'GET'
+  //   // })
+  //   //   .then(resp => resp.json()
+  //   //   )
+  //   //   .then(
+  //   //     x => {
+  //   //       setData(x);
+  //   //       console.log("DATAAAAAaaaaaaaaaaaaaaaaaaaaaaa: ", x);
+  //   //     }
+  //   //   )
+  //   //   .catch(error => { console("errooooooooooooor", error); });
+
+  //   fetch('http://172.20.10.2:3000/predict', {
+  //     method: 'POST',
+  //     body: JSON.stringify({ "asd": "asdasd" })
+  //   })
+  //     .then(resp => resp.json()
+  //     )
+  //     .then(
+  //       x => {
+  //         setData(x);
+  //         console.log("DATAAAAAaaaaaaaaaaaaaaaaaaaaaaa: ", x);
+  //       }
+  //     )
+  //     .catch(error => { console("errooooooooooooor", error); });
+
+  // }, [])
+    
+    
+
+    useEffect(() => {
+
+        LogBox.ignoreLogs([ // to ignoring the "ViewPropType will be removed from React Native" warning
+            "ViewPropTypes will be removed",
+            "ColorPropType will be removed",
+        ]);
+
+
+
+
+    }, [])
     
     function RenderBottom({style}) {
         return (
@@ -91,7 +180,7 @@ export default function Scan({ navigation }) {
 
                     >
                         {/* <Icon name="flip-camera-ios" size={38} color="#ffffff" /> */}
-                        <Text style={{color:"white", fontSize:20}} >
+                        <Text style={{color:"white", fontSize:20, borderColor:"white", borderWidth:1, padding:10, borderRadius:10}} >
                             Upload
                         </Text>
                     </TouchableOpacity>
@@ -156,6 +245,7 @@ export default function Scan({ navigation }) {
                 denemeJson = { imageString: dataUrl }; 
                 // console.log(denemeJson);
                 console.log("---------length--------:", dataUrl.length);
+                // console.log("******************************************************", denemeJson);
                
             })
 
@@ -180,23 +270,7 @@ export default function Scan({ navigation }) {
         }
     }
 
-    const uploadImage = () => {
-        
-        var data = new FormData();
-
-        data.append('file', { uri: data.uri, name: 'mytest.jpg', type: 'image/jpg' });
-        // Create the config object for the POST
-        const config = {
-            method: 'POST',
-            body: data
-        };
-        fetch('http://127.0.0.1:5000', config).then(responseData => {
-            // Log the response form the server // Here we get what we sent to Postman 
-            back
-            console.log(responseData);
-        })
-        .catch(err => { console.log(err); });
-    }
+  
 
 
     return (
@@ -204,9 +278,9 @@ export default function Scan({ navigation }) {
             {
                 imageUri ?
                     <View style={{
-                        flex: 1, backgroundColor: "#ffffffcff", justifyContent: 'space-between'
+                        flex: 1, backgroundColor: "#f7ecec", justifyContent: 'space-between'
                     }}>
-                        <View style={{alignItems:'center',marginTop: window/4}}>
+                        <View style={{alignItems:'center',marginTop: window/6}}>
                         <Image
                             source={{ uri: imageUri } }
                             style={styles.preview} 

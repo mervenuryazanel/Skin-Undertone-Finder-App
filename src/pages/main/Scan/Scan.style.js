@@ -45,8 +45,8 @@ import colors from '../../../styles/colors';
     preview: {
         // flex: 1,
         alignItems: 'center',
-        height: Dimensions.get('window').height/2.2,
-        width: Dimensions.get('window').width / 1.6,
+        height: Dimensions.get('window').height/1.8,
+        width: Dimensions.get('window').width / 1.1,
         borderWidth: 1,
         borderColor: colors.darkgray,
         borderRadius: 20,
@@ -62,14 +62,28 @@ import colors from '../../../styles/colors';
      },
     cancel: {
         position: 'absolute',
-        right: 20,
-        top: 20,
-        backgroundColor: "transparent",
-        color: '#FFF',
+        right: 10,
+        top: 10,
+        backgroundColor: "#f7ecec",
+        color:colors.darkgray,
         fontWeight: '600',
         fontSize: 17,
         width: "30%",
-        height: "15%",
-        borderRadius:10
+        height: "6%",
+        borderRadius: 10,
+        // borderWidth: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+
+        elevation: 7,
+        
+        
     }
 })

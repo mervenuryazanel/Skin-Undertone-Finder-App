@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, View, Dimensions, Image} from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, Image, KeyboardAvoidingView } from 'react-native';
 import styles from './PasswordReset.style';
 import ColorPalette1 from '../../../components/SVGcomponents/ColorPalette1';
 import mainStyles from '../../../styles/main_styles/main.styles';
@@ -63,7 +63,10 @@ function PasswordReset({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={"height"}
+            style={styles.container}
+        >
             <Image
                 style={mainStyles.circles}
                 source={require('../../../../assets/images/circles.png')}
@@ -94,7 +97,7 @@ function PasswordReset({ navigation }) {
                 onPress={goSignIn}
                 theme={"secondary"}
                  />
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 

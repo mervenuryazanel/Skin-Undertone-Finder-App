@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TouchableOpacity, Text, View, Dimensions, Image } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, Image, KeyboardAvoidingView } from 'react-native';
 import styles from './Login.style';
 
 import Button from '../../../components/Button'
@@ -67,7 +67,11 @@ function Login({ text, onPress, navigation }) {
 
 
     return (
-        <View style={[styles.container]}>
+      
+            <KeyboardAvoidingView
+                behavior={"height"}
+                style={styles.container}
+            >
             <Image
                 style={mainStyles.circles}
                 source={require('../../../../assets/images/circles.png')}
@@ -111,7 +115,7 @@ function Login({ text, onPress, navigation }) {
                 )}
             </Formik>
 
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 export default Login;

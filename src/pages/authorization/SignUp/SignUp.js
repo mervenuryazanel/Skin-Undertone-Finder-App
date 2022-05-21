@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TouchableOpacity, Text, View, Dimensions, Image } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, Image, KeyboardAvoidingView } from 'react-native';
 import styles from './SignUp.style';
 
 import Button from '../../../components/Button'
@@ -63,14 +63,24 @@ function SignUp({ text, onPress, navigation }) {
     }
 
     return (
-        <View style={[styles.container]}>
+        <KeyboardAvoidingView
+            behavior={"height"}
+            style={styles.container}
+        >
             <Image
                 style={mainStyles.circles}
                 source={require('../../../../assets/images/circles.png')}
             />
-            <View style={{ justifyContent: "center", alignItems: "center", width: Dimensions.get('window').width / 1.5 }}>
-                <Text style={[mainStyles.header1, { marginTop: Dimensions.get('window').height / 500 }]}>Register Now</Text>
-                <Text style={mainStyles.greeting}>Create an account and save matched items with your skin tone!</Text>
+            <View
+                style={{ justifyContent: "center", alignItems: "center", width: Dimensions.get('window').width / 1.5 }}>
+                <Text
+                    style={[mainStyles.header1, { marginTop: Dimensions.get('window').height / 500 }]}>
+                    Register Now
+                </Text>
+                <Text
+                    style={mainStyles.greeting}>
+                    Create an account and save matched items with your skin tone!
+                </Text>
             </View>
             <Formik initialValues={initialFormValues} onSubmit={handleFormSubmit}>
 
@@ -81,12 +91,12 @@ function SignUp({ text, onPress, navigation }) {
                             <Input
                                 value={values.username}
                                 placeHolder={"enter username..."}
-                                style={{ marginTop: 400 }}
+                                // style={{ marginTop: 400 }}
                                 onChangeText={handleChange('username')} />
                             <Input
                                 value={values.email}
                                 placeHolder={"enter email..."}
-                                style={{ marginTop: 400 }}
+                                // style={{ marginTop: 100 }}
                                 onChangeText={handleChange('email')}
                             />
                             <Input
@@ -112,7 +122,7 @@ function SignUp({ text, onPress, navigation }) {
             </Formik>
 
 
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 export default SignUp;

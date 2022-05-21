@@ -95,13 +95,14 @@ export default () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
 
+        <Stack.Screen name="MainPages" component={MainStack} />
 
         <Stack.Screen name="SplashPages" component={SplashStack} />
         <Stack.Screen name="SignUpPage" component={SignUp} />
         <Stack.Screen name="SuccessfulSignUpPage" component={SuccessfulSignUp} />
         <Stack.Screen name="LoginPage" component={Login} />
         <Stack.Screen name="PasswordResetPage" component={PasswordReset} />
-        <Stack.Screen name="MainPages" component={MainStack} />
+        {/* <Stack.Screen name="MainPages" component={MainStack} /> */}
 
         {/* <Stack.Screen name="MainPages" component={MainStack} /> */}
 

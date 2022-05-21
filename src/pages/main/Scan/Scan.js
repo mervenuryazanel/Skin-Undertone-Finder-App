@@ -10,12 +10,16 @@ import styles from './Scan.style';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { LogBox } from "react-native";
+// import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from "react-native-image-picker"
 
 
 
 const window = Dimensions.get("window").height;
 
 export default function Scan({ navigation }) {
+
+    const [flashMode, setFlashMode] = useState('off');
     const [data, setData] = useState([]);
   // const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
@@ -109,7 +113,7 @@ export default function Scan({ navigation }) {
 
                 <View style={[styles.iconContainer, { borderTopLeftRadius: 15, }]}>
                     <TouchableOpacity
-                        onPress={null}
+                        onPress={imageGalleryLaunch}
 
                     >
                         <Icon name="photo-library" size={38} color="#ffffff" />
@@ -118,10 +122,33 @@ export default function Scan({ navigation }) {
 
                 <View style={styles.iconContainer}>
                     <TouchableOpacity
-                        onPress={null}
+                        onPress={() => {
+                            if (flashMode == "off") {
+                                setFlashMode("on")
+                            }
+                            else if (flashMode == "on") {
+                                setFlashMode("auto")
+                            }
+                            else {
+                                setFlashMode("off");
+                            }
+                        }}
 
                     >
-                        <Icon name="flash-auto" size={38} color="#ffffff" />
+                        {
+                            flashMode == "on" ?
+                            < Icon name="flash-on" size={38} color="#ffffff" />
+                        :
+                            flashMode=="off" ?
+                            <Icon name="flash-off" size={38} color="#ffffff" />
+                        :
+                            <Icon name="flash-auto" size={38} color="#ffffff" />
+
+                        }
+                            
+                           
+                        
+                        
                     </TouchableOpacity>
                 </View>
 
@@ -179,10 +206,12 @@ export default function Scan({ navigation }) {
                         onPress={uploadImage}
 
                     >
+                        
                         {/* <Icon name="flip-camera-ios" size={38} color="#ffffff" /> */}
-                        <Text style={{color:"white", fontSize:20, borderColor:"white", borderWidth:1, padding:10, borderRadius:10}} >
+                        {/* <Text style={{color:"white", fontSize:20, borderColor:"white", borderWidth:1, padding:10, borderRadius:10}} >
                             Upload
-                        </Text>
+                        </Text> */}
+                        <Icon name="file-upload" size={38} color="#ffffff" />
                     </TouchableOpacity>
                 </View>
 
@@ -270,7 +299,47 @@ export default function Scan({ navigation }) {
         }
     }
 
-  
+    const [filePath, setFilePath] = useState("");
+    const [fileData, setFileData] = useState("");
+    const [fileUri, setFileUri] = useState("");
+
+
+    function imageGalleryLaunch() {
+        let options = {
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+        ImagePicker.launchImageLibrary(options, (res) => {
+            console.log('Response = ', res);
+            if (res.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (res.error) {
+                console.log('ImagePicker Error: ', res.error);
+            } else if (res.customButton) {
+                console.log('User tapped custom button: ', res.customButton);
+                alert(res.customButton);
+            } else {
+                const source = { uri: res.uri };
+                console.log('response', JSON.stringify(res));
+                console.log();
+                // this.setState({
+                //     filePath: res,
+                //     fileData: res.data,
+                //     fileUri: res.uri
+                // });
+                // setFilePath(res);
+                // setFileData(res.data);
+                // setFileUri(res.uri);
+
+                console.log(res.assets[0].uri);
+                setImageUri(res.assets[0].uri)
+                // setImageUri(source.uri);
+                // console.log(source.uri);
+            }
+        });
+    }  
 
 
     return (
@@ -278,9 +347,9 @@ export default function Scan({ navigation }) {
             {
                 imageUri ?
                     <View style={{
-                        flex: 1, backgroundColor: "#f7ecec", justifyContent: 'space-between'
+                        flex: 1, justifyContent: 'space-between'
                     }}>
-                        <View style={{alignItems:'center',marginTop: window/6}}>
+                        <View style={{alignItems:'center',flex:1}}>
                         <Image
                             source={{ uri: imageUri } }
                             style={styles.preview} 
@@ -292,11 +361,7 @@ export default function Scan({ navigation }) {
 
                             onPress={() => setImageUri(null)}
                         >
-                            <Text style={{color:colors.darkgray , fontSize:20, }}
-                            >
-                                Take Again
-
-                            </Text>
+                            <Icon name="cancel" size={38} color="#ffffff" />
                         </TouchableOpacity>
                         <View style={{}}>
 
@@ -310,6 +375,7 @@ export default function Scan({ navigation }) {
                         ref={cameraRef}
                         type={!front ? RNCamera.Constants.Type.back : RNCamera.Constants.Type.front}
                         style={styles.previewCamera}
+                        flashMode={flashMode}
 
                     >
                        

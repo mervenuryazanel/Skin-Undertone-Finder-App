@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Image, Dimensions } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { useCamera } from 'react-native-camera-hooks';
@@ -6,12 +6,11 @@ import RNFS from 'react-native-fs';
 import Button from '../../../components/Button';
 import colors from '../../../styles/colors';
 import styles from './Scan.style';
-// import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LogBox } from "react-native";
-// import ImagePicker from 'react-native-image-picker';
 import * as ImagePicker from "react-native-image-picker"
+import { Form } from 'formik';
 
 
 
@@ -21,78 +20,77 @@ export default function Scan({ navigation }) {
 
     const [flashMode, setFlashMode] = useState('off');
     const [data, setData] = useState([]);
-  // const [title, setTitle] = useState("");
+
+
+    
     const [body, setBody] = useState("");
 
-    
-    
+
+
+    const getRequest = async () => {
+
+        const res = await fetch('http://172.20.10.2:3000/index', {
+            method: 'GET'
+        })
+            .then((response) => {
+                return response.text();
+            })
+            .then((responseJson) => {
+                console.log("responseJson",responseJson);
+            })
+            .catch((error) => {
+                console.error("error",error);
+            });
+
+
+
+
+    }
+
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFileName, setSelectedFileName] = useState("");
+    const [selectedFileType, setSelectedFileType] = useState("");
+    const [selectedFileUri, setSelectedFileUri] = useState("");
+
+
+
+
+
     const uploadImage = () => {
 
-        fetch('http://172.20.10.2:3000/predict', {
+        
+        const requestOptions = {
             method: 'POST',
-            body: JSON.stringify({ "asd": "asdasd" })
+            body: imageJSON
+        };
+
+        const res = fetch("http://172.20.10.2:3000/upload/", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(imageJSON),
+        }
+        ).then((response) => {
+            return response.text();
         })
-            .then(resp => resp.json()
-            )
-            .then(
-                x => {
-                    setData(x);
-                    console.log("DATAAAAAaaaaaaaaaaaaaaaaaaaaaaa: ", x);
-                }
-            )
-            .catch(error => { console("errooooooooooooor", error); });
+            .then((responseJson) => {
+                console.log(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+            
+        
+   
 
     }
 
 
-  // const insertData = () => {
-  //   fetch('http://172.20.10.2:3000/add', {
-  //     method: 'POST',
-  //     header: {
-  //       'Contetnt-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({ body: body })
-
-  //   })
-  //     .then(resp => resp.json)
-  //     .then(data => console.log("------------DATA---------", data))
-  //     .catch(error => console.log(error));
+   
 
 
-  // }
-
-  // img={"asd":"asd"}
-  // useEffect(() => {
-  //   // fetch('http://172.20.10.2:3000/get', {
-  //   //   method: 'GET'
-  //   // })
-  //   //   .then(resp => resp.json()
-  //   //   )
-  //   //   .then(
-  //   //     x => {
-  //   //       setData(x);
-  //   //       console.log("DATAAAAAaaaaaaaaaaaaaaaaaaaaaaa: ", x);
-  //   //     }
-  //   //   )
-  //   //   .catch(error => { console("errooooooooooooor", error); });
-
-  //   fetch('http://172.20.10.2:3000/predict', {
-  //     method: 'POST',
-  //     body: JSON.stringify({ "asd": "asdasd" })
-  //   })
-  //     .then(resp => resp.json()
-  //     )
-  //     .then(
-  //       x => {
-  //         setData(x);
-  //         console.log("DATAAAAAaaaaaaaaaaaaaaaaaaaaaaa: ", x);
-  //       }
-  //     )
-  //     .catch(error => { console("errooooooooooooor", error); });
-
-  // }, [])
-    
-    
 
     useEffect(() => {
 
@@ -102,13 +100,13 @@ export default function Scan({ navigation }) {
         ]);
 
 
-
+        // uploadImage();
 
     }, [])
-    
-    function RenderBottom({style}) {
+
+    function RenderBottom({ style }) {
         return (
-            <View style={[style,{ flexDirection: "row" }]}>
+            <View style={[style, { flexDirection: "row" }]}>
 
 
                 <View style={[styles.iconContainer, { borderTopLeftRadius: 15, }]}>
@@ -137,18 +135,18 @@ export default function Scan({ navigation }) {
                     >
                         {
                             flashMode == "on" ?
-                            < Icon name="flash-on" size={38} color="#ffffff" />
-                        :
-                            flashMode=="off" ?
-                            <Icon name="flash-off" size={38} color="#ffffff" />
-                        :
-                            <Icon name="flash-auto" size={38} color="#ffffff" />
+                                < Icon name="flash-on" size={38} color="#ffffff" />
+                                :
+                                flashMode == "off" ?
+                                    <Icon name="flash-off" size={38} color="#ffffff" />
+                                    :
+                                    <Icon name="flash-auto" size={38} color="#ffffff" />
 
                         }
-                            
-                           
-                        
-                        
+
+
+
+
                     </TouchableOpacity>
                 </View>
 
@@ -193,24 +191,21 @@ export default function Scan({ navigation }) {
 
                 <View style={[styles.iconContainer2, { borderTopLeftRadius: 15, }]}>
                     <TouchableOpacity
-                        onPress={null}
+                        onPress={imageGalleryLaunch}
 
                     >
                         <Icon name="photo-library" size={38} color="#ffffff" />
                     </TouchableOpacity>
                 </View>
 
-              
+
                 <View style={styles.iconContainer2}>
                     <TouchableOpacity
                         onPress={uploadImage}
 
                     >
-                        
-                        {/* <Icon name="flip-camera-ios" size={38} color="#ffffff" /> */}
-                        {/* <Text style={{color:"white", fontSize:20, borderColor:"white", borderWidth:1, padding:10, borderRadius:10}} >
-                            Upload
-                        </Text> */}
+
+                     
                         <Icon name="file-upload" size={38} color="#ffffff" />
                     </TouchableOpacity>
                 </View>
@@ -249,16 +244,13 @@ export default function Scan({ navigation }) {
         xhr.open('GET', url);
         xhr.responseType = 'blob';
         xhr.send();
-        
+
     }
 
-    
-
-    // toDataURL('https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0', function (dataUrl) {
-    //     console.log('RESULT:', dataUrl)
-    // })
 
     var denemeJson;
+    const [imageJSON, setimageJSON] = useState({});
+
     const captureHandle = async () => {
         try {
             const data = await takePicture();
@@ -271,11 +263,12 @@ export default function Scan({ navigation }) {
             toDataURL(data.uri, function (dataUrl) {
                 // console.log('RESULT:', dataUrl);
                 var newValue = dataUrl; //------------------------------------------------------- as base64
-                denemeJson = { imageString: dataUrl }; 
-                // console.log(denemeJson);
+                denemeJson = { imageString: dataUrl };
+                setimageJSON(denemeJson);
+                // console.log(imageJSON);
                 console.log("---------length--------:", dataUrl.length);
                 // console.log("******************************************************", denemeJson);
-               
+
             })
 
             const filePath = data.uri; //source path
@@ -287,7 +280,7 @@ export default function Scan({ navigation }) {
                         // navigation.navigate('TakenPhotoPage', {
                         //     url: data.uri,
                         // });
-                        
+
                     }
                 ).catch(
                     error => {
@@ -324,22 +317,35 @@ export default function Scan({ navigation }) {
                 const source = { uri: res.uri };
                 console.log('response', JSON.stringify(res));
                 console.log();
-                // this.setState({
-                //     filePath: res,
-                //     fileData: res.data,
-                //     fileUri: res.uri
-                // });
-                // setFilePath(res);
-                // setFileData(res.data);
-                // setFileUri(res.uri);
-
+             
+                setImageUri(res.assets[0].uri);
+                setSelectedFile(res.assets[0].base64);
+                setSelectedFileName(res.assets[0].fileName);
+                setSelectedFileUri(res.assets[0].uri);
+                setSelectedFileType(res.assets[0].type);
+                console.log(res.assets[0].fileName);
+                console.log(res.assets[0].type);
                 console.log(res.assets[0].uri);
-                setImageUri(res.assets[0].uri)
+
+
+                toDataURL(res.assets[0].uri, function (dataUrl) {
+                    // console.log('RESULT:', dataUrl);
+                    var newValue = dataUrl; //------------------------------------------------------- as base64
+                    denemeJson = { imageString: dataUrl };
+                    setimageJSON(denemeJson);
+                    // console.log(imageJSON);
+                    console.log("---------length--------:", dataUrl.length);
+                    // console.log("******************************************************", denemeJson);
+
+                })
+
+
+                // uploadImage();
                 // setImageUri(source.uri);
                 // console.log(source.uri);
             }
         });
-    }  
+    }
 
 
     return (
@@ -349,15 +355,15 @@ export default function Scan({ navigation }) {
                     <View style={{
                         flex: 1, justifyContent: 'space-between'
                     }}>
-                        <View style={{alignItems:'center',flex:1}}>
-                        <Image
-                            source={{ uri: imageUri } }
-                            style={styles.preview} 
-                        />
+                        <View style={{ alignItems: 'center', flex: 1 }}>
+                            <Image
+                                source={{ uri: imageUri }}
+                                style={styles.preview}
+                            />
                         </View>
-                        
+
                         <TouchableOpacity
-                            style={styles.cancel }
+                            style={styles.cancel}
 
                             onPress={() => setImageUri(null)}
                         >
@@ -367,10 +373,10 @@ export default function Scan({ navigation }) {
 
                             <RenderBottomTaken />
                         </View>
-                    </View> 
+                    </View>
                     :
-            
-                    
+
+
                     <RNCamera
                         ref={cameraRef}
                         type={!front ? RNCamera.Constants.Type.back : RNCamera.Constants.Type.front}
@@ -378,9 +384,9 @@ export default function Scan({ navigation }) {
                         flashMode={flashMode}
 
                     >
-                       
-                    <RenderBottom style={{position:"absolute", bottom:15}} />
-                        </RNCamera>
+
+                        <RenderBottom style={{ position: "absolute", bottom: 15 }} />
+                    </RNCamera>
             }
         </View>
     );

@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
 import { TouchableOpacity, Text, View, Dimensions, Image, KeyboardAvoidingView } from 'react-native';
-import styles from './Login.style';
 
-import Button from '../../../components/Button'
-import Input from '../../../components/Input'
 import mainStyles from '../../../styles/main_styles/main.styles';
 import { Formik } from 'formik';
 import auth from '@react-native-firebase/auth';
 import { showMessage, hideMessage } from "react-native-flash-message";
-import colors from '../../../styles/colors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
+import styles from './Login.style';
+import Button from '../../../components/Button'
+import Input from '../../../components/Input'
+import colors from '../../../styles/colors';
 import authErrorMessages from '../../../utils/authErrorMessages';
+
 
 const initialFormValues = {
     email: '',
@@ -97,7 +100,14 @@ function Login({ text, onPress, navigation }) {
                                 value={values.password}
                                 placeHolder={"enter password..."}
                                 isSecure={true}
-                            />
+                                
+                            >
+                                {/* <View style={{ width: 100, height: 100, position: "absolute", right: 0 }}>
+                                    <Icon name="eye" size={38} color="red" />
+                                </View> */}
+                                <Text>on off</Text>
+                            </Input>
+                            
                             <TouchableOpacity onPress={goPasswordReset}>
                                 <Text style={[mainStyles.blueSentence, { marginRight: Dimensions.get('window').height / 35 }]}>I forgot my password.</Text>
                             </TouchableOpacity>

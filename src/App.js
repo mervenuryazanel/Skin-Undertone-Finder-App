@@ -102,7 +102,6 @@ export default () => {
         <Stack.Screen name="SuccessfulSignUpPage" component={SuccessfulSignUp} />
         <Stack.Screen name="LoginPage" component={Login} />
         <Stack.Screen name="PasswordResetPage" component={PasswordReset} />
-        {/* <Stack.Screen name="MainPages" component={MainStack} /> */}
 
         {/* <Stack.Screen name="MainPages" component={MainStack} /> */}
 

@@ -22,7 +22,7 @@ export default function Scan({ navigation }) {
     const [data, setData] = useState([]);
 
 
-    
+
     const [body, setBody] = useState("");
 
 
@@ -36,10 +36,10 @@ export default function Scan({ navigation }) {
                 return response.text();
             })
             .then((responseJson) => {
-                console.log("responseJson",responseJson);
+                console.log("responseJson", responseJson);
             })
             .catch((error) => {
-                console.error("error",error);
+                console.error("error", error);
             });
 
 
@@ -54,11 +54,13 @@ export default function Scan({ navigation }) {
 
 
 
-
+    const [responseResult, setResult] = useState("");
+    // let responseText = "";
 
     const uploadImage = () => {
 
-        
+
+
         const requestOptions = {
             method: 'POST',
             body: imageJSON
@@ -72,23 +74,32 @@ export default function Scan({ navigation }) {
             },
             body: JSON.stringify(imageJSON),
         }
-        ).then((response) => {
-            return response.text();
-        })
+        )
+            .then(async (response) => {
+                const result = await response.text();
+                navigation.navigate('ResultPage', {
+                    result: result
+                });
+                return result;
+            })
             .then((responseJson) => {
                 console.log(responseJson);
             })
             .catch((error) => {
                 console.error(error);
             });
-            
+
         
-   
+        // navigation.navigate('ResultPage');
+        // navigation.navigate('ResultPage', {
+        //     result: "aasas",
+        // });
+
 
     }
 
 
-   
+
 
 
 
@@ -205,7 +216,7 @@ export default function Scan({ navigation }) {
 
                     >
 
-                     
+
                         <Icon name="file-upload" size={38} color="#ffffff" />
                     </TouchableOpacity>
                 </View>
@@ -292,10 +303,6 @@ export default function Scan({ navigation }) {
         }
     }
 
-    const [filePath, setFilePath] = useState("");
-    const [fileData, setFileData] = useState("");
-    const [fileUri, setFileUri] = useState("");
-
 
     function imageGalleryLaunch() {
         let options = {
@@ -317,7 +324,7 @@ export default function Scan({ navigation }) {
                 const source = { uri: res.uri };
                 console.log('response', JSON.stringify(res));
                 console.log();
-             
+
                 setImageUri(res.assets[0].uri);
                 setSelectedFile(res.assets[0].base64);
                 setSelectedFileName(res.assets[0].fileName);
@@ -339,10 +346,6 @@ export default function Scan({ navigation }) {
 
                 })
 
-
-                // uploadImage();
-                // setImageUri(source.uri);
-                // console.log(source.uri);
             }
         });
     }

@@ -9,7 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FlashMessage from 'react-native-flash-message';
 import Scan from './pages/main/Scan';
-import TakenPhoto from './pages/main/TakenPhoto';
+import Result from './pages/main/Result';
 
 const Stack = createNativeStackNavigator();
 
@@ -84,7 +84,7 @@ export default () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
 
         <Stack.Screen name="ScanPage" component={Scan} />
-        <Stack.Screen name="TakenPhotoPage" component={TakenPhoto} />
+        <Stack.Screen name="ResultPage" component={Result} />
       </Stack.Navigator>
 
     );
